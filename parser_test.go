@@ -34,3 +34,19 @@ func TestNumeric(t *testing.T) {
 	assert.Nil(t, e)
 	assert.InDelta(t, 2.565, n.Any(), 0.00001)
 }
+
+func TestString(t *testing.T) {
+	kv := map[string]string{
+		`s:0:"";`:            "",
+		`s:1:" ";`:           " ",
+		"s:1:\"\x00\";":      "\x00",
+		`s:10:"987456'""'";`: `987456'""'`,
+	}
+
+	for k, v := range kv {
+		n, e := Parse(k)
+
+		assert.Nil(t, e)
+		assert.Equal(t, v, n.Any())
+	}
+}

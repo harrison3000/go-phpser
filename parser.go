@@ -2,6 +2,7 @@ package phpser
 
 import (
 	"bufio"
+	"io"
 	"strconv"
 	"strings"
 )
@@ -40,11 +41,18 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 		ret.pType = TypeInt
 	case 'd':
 		ret.pType = TypeFloat
+	case 's':
+		ret.pType = TypeString
+	case 'a':
+		ret.pType = TypeArray
 	}
+
+	expect(':')
+
+	var len int
 
 	switch t {
 	case 'b', 'i', 'd':
-		expect(':')
 		v, e := r.ReadString(';')
 		if e != nil {
 			panic("syntax error")
@@ -56,6 +64,34 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 		if e != nil {
 			panic("error converting numeric val")
 		}
+		return
+	case 's', 'a':
+		l, e := r.ReadString(':')
+		if e != nil {
+			panic("syntax error")
+		}
+		l = strings.TrimSuffix(l, ":")
+
+		l64, e := strconv.ParseInt(l, 10, 0)
+		if e != nil {
+			panic("error getting length")
+		}
+		len = int(l64)
+	}
+
+	if ret.pType == TypeString {
+		expect('"')
+
+		buf := make([]byte, len)
+		qtdrd, err := io.ReadFull(r, buf)
+		if qtdrd != len || err != nil {
+			panic("truncated serialized value")
+		}
+
+		expect('"')
+		expect(';')
+
+		ret.str = string(buf)
 		return
 	}
 

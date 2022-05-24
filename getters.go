@@ -1,13 +1,15 @@
 package phpser
 
-func (v *PhpValue) Any() any {
-	switch v.pType {
-	case TypeFloat:
+func (v PhpValue) Any() any {
+	switch {
+	case v.IsFloat():
 		return v.num
-	case TypeInt:
+	case v.IsInt():
 		return int(v.num)
-	case TypeBool:
+	case v.IsBool():
 		return v.num != 0
+	case v.IsString():
+		return v.str
 	}
 
 	return nil
