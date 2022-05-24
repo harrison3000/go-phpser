@@ -39,7 +39,7 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 
 	if t == 'N' {
 		expect(';')
-		return PhpValue{}
+		return PhpValue{pType: TypeNull}
 	}
 
 	switch t {

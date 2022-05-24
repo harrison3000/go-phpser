@@ -27,3 +27,7 @@ func (v PhpValue) IsArray() bool {
 func (v PhpValue) IsIterable() bool {
 	return v.pType == TypeArray || v.pType == TypeObject
 }
+
+func (v PhpValue) Valid() bool {
+	return v.pType != TypeInvalid
+}
