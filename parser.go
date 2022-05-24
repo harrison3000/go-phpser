@@ -53,19 +53,15 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 
 	expect(':')
 
-	var len int
-
 	switch t {
 	case 'b', 'i', 'd':
 		ret.num = consumeFloat(r)
 		return
-	case 's', 'a', 'O':
-		len = consumeLen(r)
 	}
 
-	//TODO object parsing
+	len := consumeLen(r)
 
-	if ret.pType == TypeString {
+	if ret.pType == TypeString || ret.pType == TypeObject {
 		expect('"')
 
 		buf := make([]byte, len)
@@ -75,29 +71,33 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 		}
 
 		expect('"')
-		expect(';')
 
 		ret.str = string(buf)
-		return
-	}
 
-	if ret.pType == TypeArray {
-		expect('{')
-
-		for i := 0; i < len; i++ {
-			k := consume(r)
-			v := consume(r)
-
-			ret.arr = append(ret.arr, PhpMapItem{
-				key:   mkKey(k),
-				Value: v,
-			})
+		if ret.pType == TypeString {
+			expect(';')
+			return
 		}
 
-		expect('}')
-		return
+		expect(':')
+		len = consumeLen(r)
 	}
 
+	//Only TypeArray and TypeObject should get here
+
+	expect('{')
+
+	for i := 0; i < len; i++ {
+		k := consume(r)
+		v := consume(r)
+
+		ret.arr = append(ret.arr, PhpMapItem{
+			key:   mkKey(k),
+			Value: v,
+		})
+	}
+
+	expect('}')
 	return
 }
 
