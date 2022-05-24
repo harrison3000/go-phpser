@@ -50,3 +50,9 @@ func TestString(t *testing.T) {
 		assert.Equal(t, v, n.Any())
 	}
 }
+
+func TestArray(t *testing.T) {
+	n, e := Parse(`a:2:{s:3:"oxe";i:123;i:2;i:77;}`)
+	_, _ = n, e
+	//TODO actually implement this test
+}

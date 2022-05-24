@@ -95,5 +95,38 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 		return
 	}
 
+	if ret.pType == TypeArray {
+		expect('{')
+
+		for i := 0; i < len; i++ {
+			k := consume(r)
+			v := consume(r)
+
+			ret.arr = append(ret.arr, PhpMapItem{
+				key:   k.mkKey(),
+				Value: v,
+			})
+		}
+
+		expect('}')
+	}
+
 	return
+}
+
+func (v PhpValue) mkKey() mapKey {
+	var k mapKey
+
+	switch v.pType {
+	case TypeInt:
+		k.keyType = TypeInt
+		k.intKey = int(v.num)
+	case TypeString:
+		k.keyType = TypeString
+		k.strKey = v.str
+	default:
+		panic("wrong map key")
+	}
+
+	return k
 }

@@ -15,11 +15,15 @@ const (
 	//TODO references... objects....
 )
 
-type PhpMapItem struct {
+type mapKey struct {
 	keyType PhpType
 
 	intKey int
 	strKey string
+}
+
+type PhpMapItem struct {
+	key mapKey
 
 	Value PhpValue
 }
