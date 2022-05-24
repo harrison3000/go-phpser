@@ -7,12 +7,13 @@ const (
 	TypeBool
 
 	TypeArray
+	TypeObject
 
 	TypeFloat
 	TypeInt
 	TypeString
 
-	//TODO references... objects....
+	//TODO references?
 )
 
 type mapKey struct {

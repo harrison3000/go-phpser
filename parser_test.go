@@ -56,3 +56,9 @@ func TestArray(t *testing.T) {
 	_, _ = n, e
 	//TODO actually implement this test
 }
+
+func TestObj(t *testing.T) {
+	n, e := Parse("O:5:\"Objee\":2:{s:4:\"asas\";N;s:10:\"\x00Objee\x00exe\";N;}")
+	_, _ = n, e
+	//TODO actually implement this test
+}

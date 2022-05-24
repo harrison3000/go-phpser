@@ -45,6 +45,10 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 		ret.pType = TypeString
 	case 'a':
 		ret.pType = TypeArray
+	case 'O':
+		ret.pType = TypeObject
+	default:
+		panic("unknown type")
 	}
 
 	expect(':')
@@ -65,7 +69,7 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 			panic("error converting numeric val")
 		}
 		return
-	case 's', 'a':
+	case 's', 'a', 'O':
 		l, e := r.ReadString(':')
 		if e != nil {
 			panic("syntax error")
@@ -78,6 +82,8 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 		}
 		len = int(l64)
 	}
+
+	//TODO object parsing
 
 	if ret.pType == TypeString {
 		expect('"')
@@ -109,6 +115,7 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 		}
 
 		expect('}')
+		return
 	}
 
 	return
