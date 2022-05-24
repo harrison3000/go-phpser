@@ -2,10 +2,18 @@ package phpser
 
 import (
 	"bufio"
+	"bytes"
 	"io"
 	"strconv"
 	"strings"
 )
+
+func ParseBytes(serialized []byte) (PhpValue, error) {
+	sr := bytes.NewReader(serialized)
+	br := bufio.NewReader(sr)
+
+	return consume(br), nil
+}
 
 func Parse(serialized string) (PhpValue, error) {
 	sr := strings.NewReader(serialized)
