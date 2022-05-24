@@ -19,3 +19,11 @@ func (v PhpValue) IsFloat() bool {
 func (v PhpValue) IsString() bool {
 	return v.pType == TypeString
 }
+
+func (v PhpValue) IsArray() bool {
+	return v.pType == TypeArray
+}
+
+func (v PhpValue) IsIterable() bool {
+	return v.pType == TypeArray || v.pType == TypeObject
+}

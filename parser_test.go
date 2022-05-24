@@ -17,22 +17,22 @@ func TestNumeric(t *testing.T) {
 	n, e := Parse("i:5489;")
 
 	assert.Nil(t, e)
-	assert.Equal(t, 5489, n.Any())
+	assert.Equal(t, 5489, n.Value())
 
 	n, e = Parse("b:1;")
 
 	assert.Nil(t, e)
-	assert.Equal(t, true, n.Any())
+	assert.Equal(t, true, n.Value())
 
 	n, e = Parse("b:0;")
 
 	assert.Nil(t, e)
-	assert.Equal(t, false, n.Any())
+	assert.Equal(t, false, n.Value())
 
 	n, e = Parse("d:2.565;")
 
 	assert.Nil(t, e)
-	assert.InDelta(t, 2.565, n.Any(), 0.00001)
+	assert.InDelta(t, 2.565, n.Value(), 0.00001)
 }
 
 func TestString(t *testing.T) {
@@ -47,7 +47,7 @@ func TestString(t *testing.T) {
 		n, e := Parse(k)
 
 		assert.Nil(t, e)
-		assert.Equal(t, v, n.Any())
+		assert.Equal(t, v, n.Value())
 	}
 }
 

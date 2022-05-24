@@ -1,6 +1,6 @@
 package phpser
 
-func (v PhpValue) Any() any {
+func (v PhpValue) Value() any {
 	switch {
 	case v.IsFloat():
 		return v.num
