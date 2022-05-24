@@ -57,30 +57,10 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 
 	switch t {
 	case 'b', 'i', 'd':
-		v, e := r.ReadString(';')
-		if e != nil {
-			panic("syntax error")
-		}
-
-		v = strings.TrimSuffix(v, ";")
-
-		ret.num, e = strconv.ParseFloat(v, 64)
-		if e != nil {
-			panic("error converting numeric val")
-		}
+		ret.num = consumeFloat(r)
 		return
 	case 's', 'a', 'O':
-		l, e := r.ReadString(':')
-		if e != nil {
-			panic("syntax error")
-		}
-		l = strings.TrimSuffix(l, ":")
-
-		l64, e := strconv.ParseInt(l, 10, 0)
-		if e != nil {
-			panic("error getting length")
-		}
-		len = int(l64)
+		len = consumeLen(r)
 	}
 
 	//TODO object parsing
@@ -109,7 +89,7 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 			v := consume(r)
 
 			ret.arr = append(ret.arr, PhpMapItem{
-				key:   k.mkKey(),
+				key:   mkKey(k),
 				Value: v,
 			})
 		}
@@ -121,7 +101,37 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 	return
 }
 
-func (v PhpValue) mkKey() mapKey {
+func consumeLen(r *bufio.Reader) int {
+	l, e := r.ReadString(':')
+	if e != nil {
+		panic("syntax error")
+	}
+	l = strings.TrimSuffix(l, ":")
+
+	l64, e := strconv.ParseInt(l, 10, 0)
+	if e != nil {
+		panic("error getting length")
+	}
+	return int(l64)
+}
+
+func consumeFloat(r *bufio.Reader) float64 {
+	v, e := r.ReadString(';')
+	if e != nil {
+		panic("syntax error")
+	}
+
+	v = strings.TrimSuffix(v, ";")
+
+	num, e := strconv.ParseFloat(v, 64)
+	if e != nil {
+		panic("error converting numeric val")
+	}
+
+	return num
+}
+
+func mkKey(v PhpValue) mapKey {
 	var k mapKey
 
 	switch v.pType {
