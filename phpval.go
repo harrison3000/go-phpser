@@ -4,8 +4,7 @@ type PhpType int8
 
 const (
 	TypeNull PhpType = iota
-	TypeBoolTrue
-	TypeBoolFalse
+	TypeBool
 
 	TypeArray
 
