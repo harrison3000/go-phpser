@@ -8,20 +8,28 @@ import (
 	"strings"
 )
 
-func ParseBytes(serialized []byte) (PhpValue, error) {
-	sr := bytes.NewReader(serialized)
-	br := bufio.NewReader(sr)
-
-	return consume(br), nil
+func ParseBytes(serialized []byte) PhpValue {
+	br := bytes.NewReader(serialized)
+	return parse(br)
 }
 
-func Parse(serialized string) (PhpValue, error) {
+func Parse(serialized string) PhpValue {
 	sr := strings.NewReader(serialized)
-	br := bufio.NewReader(sr)
+	return parse(sr)
+}
 
-	//TODO recover from panic and actually return error
+func parse(r io.Reader) (ret PhpValue) {
+	br := bufio.NewReader(r)
+	defer func() {
+		err := recover()
+		if se, ok := err.(string); ok {
+			ret.pType = TypeInvalid
+			ret.str = se //will allow the user to see what went wrong, if he so wants
+		}
+	}()
 
-	return consume(br), nil
+	ret = consume(br)
+	return
 }
 
 func consume(r *bufio.Reader) (ret PhpValue) {
