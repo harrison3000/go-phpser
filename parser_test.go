@@ -72,3 +72,12 @@ func TestBad(t *testing.T) {
 	assert.False(t, n.Valid())
 	assert.Error(t, v.(error))
 }
+
+func BenchmarkHugeVal(b *testing.B) {
+	long := []byte(`a:2:{s:5:"teste";a:4:{i:0;s:19:"hellow mai friendis";i:1;s:24:"teste testancio da silva";s:12:"098203984098";i:6546546;i:2;i:123123123;}s:6:"teste2";a:5:{i:0;s:9:"AMD 4700S";i:1;s:19:"Zen, mas não Ryzen";s:6:"Distro";s:9:"ArchLinux";i:2;i:123123123;s:11:"outra array";a:15:{i:0;i:321;i:1;i:654;i:2;i:987;i:3;i:654;i:4;s:3:"asd";i:5;i:980;i:6;i:234235;i:7;i:234625;i:8;i:345;i:9;i:73;i:10;i:214;i:11;i:12;i:12;i:234;i:13;i:456;i:14;i:6234234234;}}}`)
+
+	for i := 0; i < b.N; i++ {
+		r := ParseBytes(long)
+		_ = r
+	}
+}
