@@ -18,10 +18,10 @@ const (
 )
 
 type mapKey struct {
-	keyType PhpType
-
-	intKey int
 	strKey string
+	intKey int
+
+	keyType PhpType
 }
 
 type PhpMapItem struct {
@@ -31,9 +31,9 @@ type PhpMapItem struct {
 }
 
 type PhpValue struct {
-	pType PhpType
-
 	str string
-	num float64
 	arr []PhpMapItem
+	num float64
+
+	pType PhpType
 }
