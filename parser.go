@@ -103,6 +103,8 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 
 	expect('{')
 
+	ret.arr = make([]PhpMapItem, 0, len)
+
 	for i := 0; i < len; i++ {
 		k := consume(r)
 		v := consume(r)
