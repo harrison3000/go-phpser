@@ -33,6 +33,7 @@ type PhpMapItem struct {
 type PhpValue struct {
 	str string
 	arr []PhpMapItem
+	mmp map[mapKey]PhpValue
 	num float64
 
 	pType PhpType

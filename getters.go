@@ -39,3 +39,8 @@ func (v PhpValue) String() string {
 
 	return ""
 }
+
+func (v PhpValue) Get(key any) PhpValue {
+	k := mkKey(key)
+	return v.mmp[k]
+}

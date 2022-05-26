@@ -75,6 +75,9 @@ func TestArray(t *testing.T) {
 	assert.Equal(t, "oxe2", ks)
 	assert.Equal(t, "12377", vs)
 
+	assert.Equal(t, 123, n.Get("oxe").Value())
+	assert.Equal(t, 77, n.Get(2).Value())
+
 	_ = n
 	//TODO better tests
 }

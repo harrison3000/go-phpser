@@ -104,15 +104,22 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 	expect('{')
 
 	ret.arr = make([]PhpMapItem, 0, len)
+	ret.mmp = make(map[mapKey]PhpValue)
 
 	for i := 0; i < len; i++ {
 		k := consume(r)
 		v := consume(r)
 
+		mk := mkKey(k.Value())
+		if mk.keyType == TypeInvalid {
+			panic("wrong type in array or object key")
+		}
+
 		ret.arr = append(ret.arr, PhpMapItem{
-			key:   mkKey(k),
+			key:   mk,
 			Value: v,
 		})
+		ret.mmp[mk] = v
 	}
 
 	expect('}')
@@ -149,18 +156,17 @@ func consumeFloat(r *bufio.Reader) float64 {
 	return num
 }
 
-func mkKey(v PhpValue) mapKey {
+//TODO make it accept types based on int and string
+func mkKey(v any) mapKey {
 	var k mapKey
 
-	switch v.pType {
-	case TypeInt:
+	switch v := v.(type) {
+	case int:
 		k.keyType = TypeInt
-		k.intKey = int(v.num)
-	case TypeString:
+		k.intKey = v
+	case string:
 		k.keyType = TypeString
-		k.strKey = v.str
-	default:
-		panic("wrong map key")
+		k.strKey = v
 	}
 
 	return k
