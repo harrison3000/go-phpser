@@ -11,6 +11,7 @@ func TestNull(t *testing.T) {
 
 	assert.True(t, n.Valid())
 	assert.True(t, n.IsNull())
+	assert.Equal(t, "null", n.String())
 }
 
 func TestNumeric(t *testing.T) {
@@ -18,16 +19,19 @@ func TestNumeric(t *testing.T) {
 
 	assert.True(t, n.Valid())
 	assert.Equal(t, 5489, n.Value())
+	assert.Equal(t, "5489", n.String())
 
 	n = Parse("b:1;")
 
 	assert.True(t, n.Valid())
 	assert.Equal(t, true, n.Value())
+	assert.Equal(t, "true", n.String())
 
 	n = Parse("b:0;")
 
 	assert.True(t, n.Valid())
 	assert.Equal(t, false, n.Value())
+	assert.Equal(t, "false", n.String())
 
 	n = Parse("d:2.565;")
 
