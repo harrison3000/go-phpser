@@ -1,18 +1,18 @@
 package phpser
 
-type PhpType int8
+type phpType int8
 
 const (
-	TypeNoExists PhpType = iota
-	TypeNull
-	TypeBool
+	typeNoExists phpType = iota
+	typeNull
+	typeBool
 
-	TypeArray
-	TypeObject
+	typeArray
+	typeObject
 
-	TypeFloat
-	TypeInt
-	TypeString
+	typeFloat
+	typeInt
+	typeString
 
 	//TODO references?
 )
@@ -21,20 +21,19 @@ type mapKey struct {
 	strKey string
 	intKey int
 
-	keyType PhpType
+	keyType phpType
 }
 
-type PhpMapItem struct {
-	key mapKey
-
-	Value PhpValue
+type phpMapItem struct {
+	key   mapKey
+	value PhpValue
 }
 
 type PhpValue struct {
 	str string
-	arr []PhpMapItem
+	arr []phpMapItem
 	mmp map[mapKey]PhpValue
 	num float64
 
-	pType PhpType
+	pType phpType
 }

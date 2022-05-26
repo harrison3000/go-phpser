@@ -15,7 +15,7 @@ func (v PhpValue) Value() any {
 		return v.num != 0
 	case v.IsString():
 		return v.str
-	case v.pType == TypeNoExists:
+	case v.pType == typeNoExists:
 		return nil
 	}
 
@@ -28,11 +28,11 @@ func (v PhpValue) String() string {
 	}
 
 	switch v.pType {
-	case TypeNull:
+	case typeNull:
 		return "null"
-	case TypeBool:
+	case typeBool:
 		return strconv.FormatBool(v.num != 0)
-	case TypeInt, TypeFloat:
+	case typeInt, typeFloat:
 		return fmt.Sprint(v.num)
 	}
 

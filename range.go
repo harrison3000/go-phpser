@@ -1,7 +1,7 @@
 package phpser
 
 func (v PhpValue) ForEach(iterator func(key, value PhpValue) bool) {
-	if t := v.pType; t != TypeArray && t != TypeObject {
+	if t := v.pType; t != typeArray && t != typeObject {
 		iterator(PhpValue{}, v)
 		return
 	}
@@ -13,7 +13,7 @@ func (v PhpValue) ForEach(iterator func(key, value PhpValue) bool) {
 			num:   float64(v.key.intKey),
 		}
 
-		keepGoing := iterator(k, v.Value)
+		keepGoing := iterator(k, v.value)
 		if !keepGoing {
 			break
 		}

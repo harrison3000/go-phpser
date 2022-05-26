@@ -3,43 +3,43 @@ package phpser
 import "strings"
 
 func (v PhpValue) IsNull() bool {
-	return v.pType == TypeNull
+	return v.pType == typeNull
 }
 
 func (v PhpValue) IsInt() bool {
-	return v.pType == TypeInt
+	return v.pType == typeInt
 }
 
 func (v PhpValue) IsBool() bool {
-	return v.pType == TypeBool
+	return v.pType == typeBool
 }
 
 func (v PhpValue) IsFloat() bool {
-	return v.pType == TypeFloat
+	return v.pType == typeFloat
 }
 
 func (v PhpValue) IsString() bool {
-	return v.pType == TypeString
+	return v.pType == typeString
 }
 
 func (v PhpValue) IsArray() bool {
-	return v.pType == TypeArray
+	return v.pType == typeArray
 }
 
 func (v PhpValue) IsIterable() bool {
-	return v.pType == TypeArray || v.pType == TypeObject
+	return v.pType == typeArray || v.pType == typeObject
 }
 
 func (v PhpValue) Exists() bool {
-	return v.pType != TypeNoExists
+	return v.pType != typeNoExists
 }
 
 func (v PhpValue) IsObject() bool {
-	return v.pType == TypeObject
+	return v.pType == typeObject
 }
 
 func (v PhpValue) InstanceOf(class string, strict ...bool) bool {
-	if v.pType != TypeObject {
+	if v.pType != typeObject {
 		return false
 	}
 

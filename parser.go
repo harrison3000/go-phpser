@@ -23,7 +23,7 @@ func parse(r io.Reader) (ret PhpValue) {
 	defer func() {
 		err := recover()
 		if se, ok := err.(string); ok {
-			ret.pType = TypeNoExists
+			ret.pType = typeNoExists
 			ret.str = se //will allow the user to see what went wrong, if he so wants
 		}
 	}()
@@ -47,22 +47,22 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 
 	if t == 'N' {
 		expect(';')
-		return PhpValue{pType: TypeNull}
+		return PhpValue{pType: typeNull}
 	}
 
 	switch t {
 	case 'b':
-		ret.pType = TypeBool
+		ret.pType = typeBool
 	case 'i':
-		ret.pType = TypeInt
+		ret.pType = typeInt
 	case 'd':
-		ret.pType = TypeFloat
+		ret.pType = typeFloat
 	case 's':
-		ret.pType = TypeString
+		ret.pType = typeString
 	case 'a':
-		ret.pType = TypeArray
+		ret.pType = typeArray
 	case 'O':
-		ret.pType = TypeObject
+		ret.pType = typeObject
 	default:
 		panic("unknown type")
 	}
@@ -77,7 +77,7 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 
 	len := consumeLen(r)
 
-	if ret.pType == TypeString || ret.pType == TypeObject {
+	if ret.pType == typeString || ret.pType == typeObject {
 		expect('"')
 
 		buf := make([]byte, len)
@@ -90,7 +90,7 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 
 		ret.str = string(buf)
 
-		if ret.pType == TypeString {
+		if ret.pType == typeString {
 			expect(';')
 			return
 		}
@@ -103,7 +103,7 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 
 	expect('{')
 
-	ret.arr = make([]PhpMapItem, 0, len)
+	ret.arr = make([]phpMapItem, 0, len)
 	ret.mmp = make(map[mapKey]PhpValue)
 
 	for i := 0; i < len; i++ {
@@ -111,13 +111,13 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 		v := consume(r)
 
 		mk := mkKey(k.Value())
-		if mk.keyType == TypeNoExists {
+		if mk.keyType == typeNoExists {
 			panic("wrong type in array or object key")
 		}
 
-		ret.arr = append(ret.arr, PhpMapItem{
+		ret.arr = append(ret.arr, phpMapItem{
 			key:   mk,
-			Value: v,
+			value: v,
 		})
 		ret.mmp[mk] = v
 	}
@@ -162,10 +162,10 @@ func mkKey(v any) mapKey {
 
 	switch v := v.(type) {
 	case int:
-		k.keyType = TypeInt
+		k.keyType = typeInt
 		k.intKey = v
 	case string:
-		k.keyType = TypeString
+		k.keyType = typeString
 		k.strKey = v
 	}
 
