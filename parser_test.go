@@ -59,9 +59,16 @@ func TestArray(t *testing.T) {
 }
 
 func TestObj(t *testing.T) {
-	n := Parse("O:5:\"Objee\":2:{s:4:\"asas\";N;s:10:\"\x00Objee\x00exe\";N;}")
-	_ = n
-	//TODO actually implement this test
+	n := Parse("O:8:\"ns\\Objee\":2:{s:4:\"asas\";N;s:13:\"\x00ns\\Objee\x00exe\";N;}")
+
+	assert.True(t, n.IsObject())
+	assert.True(t, n.InstanceOf("Objee"))
+	assert.False(t, n.InstanceOf("Objetu"))
+
+	assert.True(t, n.InstanceOf(`ns\Objee`, true))
+	assert.False(t, n.InstanceOf("Objee", true))
+
+	//TODO implement more test
 }
 
 func TestBad(t *testing.T) {

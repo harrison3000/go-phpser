@@ -1,5 +1,7 @@
 package phpser
 
+import "strings"
+
 func (v PhpValue) IsNull() bool {
 	return v.pType == TypeNull
 }
@@ -30,4 +32,29 @@ func (v PhpValue) IsIterable() bool {
 
 func (v PhpValue) Valid() bool {
 	return v.pType != TypeInvalid
+}
+
+func (v PhpValue) IsObject() bool {
+	return v.pType == TypeObject
+}
+
+func (v PhpValue) InstanceOf(class string, strict ...bool) bool {
+	if v.pType != TypeObject {
+		return false
+	}
+
+	if class == v.str {
+		return true
+	}
+
+	if len(strict) > 0 && strict[0] {
+		//if is strict and got here... nope
+		return false
+	}
+
+	sep := strings.Split(v.str, `\`)
+
+	cn := sep[len(sep)-1]
+
+	return class == cn
 }
