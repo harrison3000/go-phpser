@@ -9,7 +9,7 @@ import (
 func TestNull(t *testing.T) {
 	n := Parse("N;")
 
-	assert.True(t, n.Valid())
+	assert.True(t, n.Exists())
 	assert.True(t, n.IsNull())
 	assert.Equal(t, "null", n.String())
 }
@@ -17,25 +17,25 @@ func TestNull(t *testing.T) {
 func TestNumeric(t *testing.T) {
 	n := Parse("i:5489;")
 
-	assert.True(t, n.Valid())
+	assert.True(t, n.Exists())
 	assert.Equal(t, 5489, n.Value())
 	assert.Equal(t, "5489", n.String())
 
 	n = Parse("b:1;")
 
-	assert.True(t, n.Valid())
+	assert.True(t, n.Exists())
 	assert.Equal(t, true, n.Value())
 	assert.Equal(t, "true", n.String())
 
 	n = Parse("b:0;")
 
-	assert.True(t, n.Valid())
+	assert.True(t, n.Exists())
 	assert.Equal(t, false, n.Value())
 	assert.Equal(t, "false", n.String())
 
 	n = Parse("d:2.565;")
 
-	assert.True(t, n.Valid())
+	assert.True(t, n.Exists())
 	assert.InDelta(t, 2.565, n.Value(), 0.00001)
 }
 
@@ -51,7 +51,7 @@ func TestString(t *testing.T) {
 	for k, v := range kv {
 		n := Parse(k)
 
-		assert.True(t, n.Valid())
+		assert.True(t, n.Exists())
 		assert.Equal(t, v, n.Value())
 	}
 }
@@ -101,7 +101,7 @@ func TestBad(t *testing.T) {
 
 	v := n.Value()
 
-	assert.False(t, n.Valid())
+	assert.False(t, n.Exists())
 	assert.Error(t, v.(error))
 }
 

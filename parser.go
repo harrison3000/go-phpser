@@ -23,7 +23,7 @@ func parse(r io.Reader) (ret PhpValue) {
 	defer func() {
 		err := recover()
 		if se, ok := err.(string); ok {
-			ret.pType = TypeInvalid
+			ret.pType = TypeNoExists
 			ret.str = se //will allow the user to see what went wrong, if he so wants
 		}
 	}()
@@ -111,7 +111,7 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 		v := consume(r)
 
 		mk := mkKey(k.Value())
-		if mk.keyType == TypeInvalid {
+		if mk.keyType == TypeNoExists {
 			panic("wrong type in array or object key")
 		}
 

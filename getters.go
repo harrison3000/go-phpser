@@ -1,7 +1,6 @@
 package phpser
 
 import (
-	"errors"
 	"fmt"
 	"strconv"
 )
@@ -16,8 +15,8 @@ func (v PhpValue) Value() any {
 		return v.num != 0
 	case v.IsString():
 		return v.str
-	case v.pType == TypeInvalid:
-		return errors.New(v.str)
+	case v.pType == TypeNoExists:
+		return nil
 	}
 
 	return nil

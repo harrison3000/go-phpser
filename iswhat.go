@@ -30,8 +30,8 @@ func (v PhpValue) IsIterable() bool {
 	return v.pType == TypeArray || v.pType == TypeObject
 }
 
-func (v PhpValue) Valid() bool {
-	return v.pType != TypeInvalid
+func (v PhpValue) Exists() bool {
+	return v.pType != TypeNoExists
 }
 
 func (v PhpValue) IsObject() bool {

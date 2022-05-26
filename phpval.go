@@ -3,7 +3,7 @@ package phpser
 type PhpType int8
 
 const (
-	TypeInvalid PhpType = iota
+	TypeNoExists PhpType = iota
 	TypeNull
 	TypeBool
 
