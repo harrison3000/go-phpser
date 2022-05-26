@@ -58,14 +58,32 @@ func TestString(t *testing.T) {
 
 func TestArray(t *testing.T) {
 	n := Parse(`a:2:{s:3:"oxe";i:123;i:2;i:77;}`)
+
+	assert.True(t, n.IsArray())
+	assert.True(t, n.IsIterable())
+
+	ks := ""
+	vs := ""
+
+	n.ForEach(func(key, value PhpValue) bool {
+		ks += key.String()
+		vs += value.String()
+
+		return true
+	})
+
+	assert.Equal(t, "oxe2", ks)
+	assert.Equal(t, "12377", vs)
+
 	_ = n
-	//TODO actually implement this test
+	//TODO better tests
 }
 
 func TestObj(t *testing.T) {
 	n := Parse("O:8:\"ns\\Objee\":2:{s:4:\"asas\";N;s:13:\"\x00ns\\Objee\x00exe\";N;}")
 
 	assert.True(t, n.IsObject())
+	assert.True(t, n.IsIterable())
 	assert.True(t, n.InstanceOf("Objee"))
 	assert.False(t, n.InstanceOf("Objetu"))
 
