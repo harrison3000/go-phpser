@@ -63,6 +63,7 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 		ret.pType = typeArray
 	case 'O':
 		ret.pType = typeObject
+		//TODO support for serialized objects, "C"
 	default:
 		panic("unknown type")
 	}
