@@ -31,8 +31,8 @@ type phpMapItem struct {
 
 type PhpValue struct {
 	str string
-	arr []phpMapItem
 	mmp map[mapKey]PhpValue
+	arr []phpMapItem
 	num float64
 
 	pType phpType
