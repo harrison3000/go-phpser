@@ -103,7 +103,7 @@ func TestBad(t *testing.T) {
 	v := n.Value()
 
 	assert.False(t, n.Exists())
-	assert.Error(t, v.(error))
+	assert.Nil(t, v)
 }
 
 func BenchmarkHugeVal(b *testing.B) {
