@@ -121,13 +121,13 @@ func TestTime(t *testing.T) {
 	tests := []string{
 		`O:8:"DateTime":3:{s:4:"date";s:26:"2010-01-28 15:45:00.000000";s:13:"timezone_type";i:1;s:8:"timezone";s:6:"-04:00";}`,
 		`O:8:"DateTime":3:{s:4:"date";s:19:"2010-01-28 15:45:00";s:13:"timezone_type";i:1;s:8:"timezone";s:6:"-04:00";}`,
-		//`O:8:"DateTime":3:{s:4:"date";s:19:"2010-01-28 15:45:00";s:13:"timezone_type";i:3;s:8:"timezone";s:11:"Brazil/Acre";}`,
+		`O:8:"DateTime":3:{s:4:"date";s:19:"2010-01-28 15:45:00";s:13:"timezone_type";i:3;s:8:"timezone";s:11:"Brazil/Acre";}`,
 		`O:17:"DateTimeImmutable":3:{s:4:"date";s:26:"2010-01-28 15:45:00.000000";s:13:"timezone_type";i:1;s:8:"timezone";s:6:"-04:00";}`,
 	}
 
 	for _, v := range tests {
 		tp := Parse(v).Time()
 
-		assert.Equal(t, tt, tp)
+		assert.Equal(t, tt.Local(), tp.Local())
 	}
 }

@@ -57,18 +57,21 @@ func (v PhpValue) Time() time.Time {
 		return time.Time{}
 	}
 
-	const format = "2006-01-02 15:04:05.99999999Z07:00"
+	const format = "2006-01-02 15:04:05.99999999"
 
 	date := v.Get("date").String()
 	tztype := v.Get("timezone_type").Int()
 	tz := v.Get("timezone").String()
 
+	var t time.Time
+
 	switch tztype {
 	case 1:
-		date += tz
+		t, _ = time.Parse(format+"Z07:00", date+tz)
+	case 3:
+		tzz, _ := time.LoadLocation(tz)
+		t, _ = time.ParseInLocation(format, date, tzz)
 	}
-
-	t, _ := time.Parse(format, date)
 
 	return t
 }
