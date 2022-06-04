@@ -38,6 +38,11 @@ func TestNumeric(t *testing.T) {
 
 	assert.True(t, n.Exists())
 	assert.InDelta(t, 2.565, n.Value(), 0.00001)
+
+	n = Parse(`s:6:"987456";`)
+
+	assert.True(t, n.Exists())
+	assert.Equal(t, int64(987456), n.Int())
 }
 
 func TestString(t *testing.T) {

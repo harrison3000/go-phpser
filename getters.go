@@ -42,9 +42,12 @@ func (v PhpValue) String() string {
 	return ""
 }
 
-func (v PhpValue) Int() int {
-	//TODO improve this!
-	return int(v.num)
+func (v PhpValue) Int() int64 {
+	if v.pType == typeString {
+		i, _ := strconv.ParseInt(v.str, 10, 64)
+		return i
+	}
+	return int64(v.num)
 }
 
 func (v PhpValue) Get(key any) PhpValue {
