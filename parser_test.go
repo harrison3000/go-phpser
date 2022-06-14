@@ -128,6 +128,7 @@ func TestTime(t *testing.T) {
 		`O:8:"DateTime":3:{s:4:"date";s:19:"2010-01-28 15:45:00";s:13:"timezone_type";i:1;s:8:"timezone";s:6:"-04:00";}`,
 		`O:8:"DateTime":3:{s:4:"date";s:19:"2010-01-28 15:45:00";s:13:"timezone_type";i:3;s:8:"timezone";s:11:"Brazil/Acre";}`,
 		`O:17:"DateTimeImmutable":3:{s:4:"date";s:26:"2010-01-28 15:45:00.000000";s:13:"timezone_type";i:1;s:8:"timezone";s:6:"-04:00";}`,
+		`O:8:"DateTime":3:{s:4:"date";s:19:"2010-01-28 19:45:00";s:13:"timezone_type";i:2;s:8:"timezone";s:3:"GMT";}`,
 	}
 
 	for _, v := range tests {

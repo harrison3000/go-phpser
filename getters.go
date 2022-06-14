@@ -71,7 +71,7 @@ func (v PhpValue) Time() time.Time {
 	switch tztype {
 	case 1:
 		t, _ = time.Parse(format+"Z07:00", date+tz)
-	case 3:
+	case 2, 3:
 		tzz, _ := time.LoadLocation(tz)
 		t, _ = time.ParseInLocation(format, date, tzz)
 	}
