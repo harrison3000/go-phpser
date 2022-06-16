@@ -84,7 +84,9 @@ func TestArray(t *testing.T) {
 	assert.Equal(t, 123, n.Get("oxe").Value())
 	assert.Equal(t, 77, n.Get(2).Value())
 
-	_ = n
+	type sss string
+	assert.Equal(t, 123, n.Get(sss("oxe")).Value())
+
 	//TODO better tests
 }
 

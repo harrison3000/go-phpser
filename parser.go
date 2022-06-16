@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"io"
+	"reflect"
 	"strconv"
 	"strings"
 )
@@ -157,17 +158,16 @@ func consumeFloat(r *bufio.Reader) float64 {
 	return num
 }
 
-//TODO make it accept types based on int and string
-func mkKey(v any) mapKey {
-	var k mapKey
+func mkKey(v any) (k mapKey) {
+	vv := reflect.ValueOf(v)
 
-	switch v := v.(type) {
-	case int:
+	switch vv.Type().Kind() {
+	case reflect.Int:
 		k.keyType = typeInt
-		k.intKey = v
-	case string:
+		k.intKey = int(vv.Int())
+	case reflect.String:
 		k.keyType = typeString
-		k.strKey = v
+		k.strKey = vv.String()
 	}
 
 	return k
