@@ -113,7 +113,7 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 		v := consume(r)
 
 		mk := mkKey(k.Value())
-		if mk.keyType == typeNoExists {
+		if mk.keyType() == typeNoExists {
 			panic("wrong type in array or object key")
 		}
 
@@ -163,11 +163,9 @@ func mkKey(v any) (k mapKey) {
 
 	switch vv.Type().Kind() {
 	case reflect.Int:
-		k.keyType = typeInt
-		k.intKey = int(vv.Int())
+		k.v = int(vv.Int())
 	case reflect.String:
-		k.keyType = typeString
-		k.strKey = vv.String()
+		k.v = vv.String()
 	}
 
 	return k

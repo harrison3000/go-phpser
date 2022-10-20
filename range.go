@@ -7,11 +7,7 @@ func (v PhpValue) ForEach(iterator func(key, value PhpValue) bool) {
 	}
 
 	for _, v := range v.arr {
-		k := PhpValue{
-			pType: v.key.keyType,
-			str:   v.key.strKey,
-			num:   float64(v.key.intKey),
-		}
+		k := v.key.toVal()
 
 		keepGoing := iterator(k, v.value)
 		if !keepGoing {

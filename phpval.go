@@ -18,10 +18,7 @@ const (
 )
 
 type mapKey struct {
-	strKey string
-	intKey int
-
-	keyType phpType //This is necessary because we can have a empty string and 0 as distinct keys
+	v any
 }
 
 type phpMapItem struct {
