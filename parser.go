@@ -161,10 +161,9 @@ func consumeFloat(r *bufio.Reader) float64 {
 func mkKey(v any) (k mapKey) {
 	vv := reflect.ValueOf(v)
 
-	switch vv.Type().Kind() {
-	case reflect.Int:
+	if vv.CanInt() {
 		k.v = int(vv.Int())
-	case reflect.String:
+	} else if vv.Type().Kind() == reflect.String {
 		k.v = vv.String()
 	}
 
