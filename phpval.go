@@ -21,7 +21,7 @@ type mapKey struct {
 	v any
 }
 
-type phpMapItem struct {
+type mapItem struct {
 	key   mapKey
 	value PhpValue
 }
@@ -29,7 +29,7 @@ type phpMapItem struct {
 type PhpValue struct {
 	str string
 	mmp map[mapKey]PhpValue
-	arr []phpMapItem
+	arr []mapItem //Used for iterating in the right order, arrays in php are ordered maps
 	num float64
 
 	pType phpType

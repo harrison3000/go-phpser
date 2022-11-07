@@ -105,7 +105,7 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 
 	expect('{')
 
-	ret.arr = make([]phpMapItem, 0, len)
+	ret.arr = make([]mapItem, 0, len)
 	ret.mmp = make(map[mapKey]PhpValue, len)
 
 	for i := 0; i < len; i++ {
@@ -117,7 +117,7 @@ func consume(r *bufio.Reader) (ret PhpValue) {
 			panic("wrong type in array or object key")
 		}
 
-		ret.arr = append(ret.arr, phpMapItem{
+		ret.arr = append(ret.arr, mapItem{
 			key:   mk,
 			value: v,
 		})
